@@ -11,20 +11,48 @@ A computer vision project for waste object detection using YOLOv5 with a modular
 
 ## Quick Start
 
-1. Create and activate a Python environment.
-2. Install dependencies:
+1. Create and activate the conda environment.
+
+```bash
+conda create -n waste python=3.7 -y
+conda activate waste
+```
+
+2. Install dependencies.
 
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the training pipeline:
+3. Install project package in editable mode.
+
+```bash
+pip install -e .
+```
+
+4. Run the training pipeline.
 
 ```bash
 python app.py
 ```
 
+## Troubleshooting
+
+- If `python app.py` fails with missing module errors, check interpreter mismatch.
+- Verify active Python:
+
+```bash
+which python
+python --version
+```
+
+- If needed, run with the environment interpreter explicitly:
+
+```bash
+/home/bayuzen/anaconda3/envs/waste/bin/python app.py
+```
+
 ## Notes
 
 - YOLOv5 experiment workflows are kept under `research/yolov5`.
-- Generated artifacts and logs are excluded from Git via `.gitignore`.
+- Generated artifacts, logs, and experiment outputs are excluded from Git via `.gitignore`.

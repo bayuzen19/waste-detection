@@ -1,6 +1,7 @@
 venv
 env
 .venv/
+.python-version
 
 # Environment files
 .env
@@ -10,12 +11,14 @@ env
 data/
 *.zip
 *.csv
+*.tsv
 
 # Training outputs
 runs/
 research/
 artifacts/
 logs/
+wandb/
 
 # Model weights
 *.pt
@@ -31,6 +34,11 @@ __pycache__/
 *.ipynb
 .pytest_cache/
 .mypy_cache/
+build/
+dist/
+.coverage
+coverage.xml
+htmlcov/
 
 # IDE
 .vscode/
