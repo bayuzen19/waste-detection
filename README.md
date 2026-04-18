@@ -59,34 +59,35 @@ python --version
 
 ## YOLO Training Result Analysis
 
-Latest verified run used YOLOv5s with the following setup:
+Latest verified run used configuration from `waste_detection/constant/training_pipeline/__init__.py`:
 
-- Epochs: 1
-- Batch size: 16
-- Image size: 416
-- Classes: 13
+- `MODEL_TRAINER_PRETRAINED_WEIGHT_NAME`: `yolov5s.pt`
+- `MODEL_TRAINER_NO_EPOCHS`: `500`
+- `MODEL_TRAINER_BATCH_SIZE`: `64`
+- Image size: `416`
+- Number of classes: `13`
 
-Validation summary (best model):
+Final validation summary (best model after 500 epochs):
 
-- Precision (P): 0.00708
-- Recall (R): 0.765
-- mAP@0.5: 0.0481
-- mAP@0.5:0.95: 0.0171
+- Precision (P): `0.983`
+- Recall (R): `0.957`
+- mAP@0.5: `0.979`
+- mAP@0.5:0.95: `0.928`
 
 Interpretation:
 
-- Recall is already high for an early run, which means many true objects are being detected.
-- Precision is still very low, indicating many false positives.
-- mAP values are low because one epoch is not enough for stable localization and class separation across 13 classes.
+- Model quality is already strong and stable: precision and recall are both high with balanced detection behavior.
+- The gap between mAP@0.5 and mAP@0.5:0.95 is relatively small, indicating good localization quality, not only coarse detection.
+- Training in late epochs (around 480-500) is already plateauing, so additional epochs will likely give only marginal gains.
 
-Class-level snapshot:
+Class-level highlights (mAP@0.5 / mAP@0.5:0.95):
 
-- Stronger early classes by mAP@0.5: `tissueroll` (0.134), `banana` (0.116), `foodcan` (0.0783).
-- Weaker early classes include `paperbag`, `plasticbag`, and `drinkcan`, which suggests class confusion and limited learning time.
+- Strongest classes: `drinkcan` (0.995 / 0.970), `tissueroll` (0.995 / 0.959), `plasticbottle` (0.995 / 0.938), `drinkpack` (0.994 / 0.952), `lettuce` (0.995 / 0.925).
+- Good but still improvable classes: `plasticcontainer` (0.972 / 0.879), `sweetpotato` (0.962 / 0.891), `plasticbag` (0.939 / 0.905), `chilli` (0.955 / 0.900).
 
-Recommended next training steps:
+Recommended next steps:
 
-1. Increase epochs to at least 50-100 and monitor overfitting.
-2. Keep validation monitoring on mAP@0.5:0.95, not only recall.
-3. Review label quality for low-performing classes and rebalance data if class counts are skewed.
-4. Optionally tune augmentation and learning rate schedule after baseline convergence.
+1. Save this run as baseline production candidate because overall metrics are already high.
+2. Prioritize targeted data improvement on `plasticcontainer`, `sweetpotato`, and `plasticbag` (more hard examples and label review).
+3. Consider enabling early stopping in future runs to reduce compute when metrics plateau.
+4. Evaluate on a true hold-out test set (or real camera data) before deployment to confirm generalization.
