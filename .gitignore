@@ -19,6 +19,7 @@ research/
 artifacts/
 logs/
 wandb/
+yolov5/
 
 # Model weights
 *.pt
